@@ -1,0 +1,169 @@
+# i3wm Configuration File
+
+set $mod Mod4
+
+# --- [ ENV ] --- Primary default apps and terminal binary definitions
+set $term alacritty
+set $browser firefox
+set $files ranger
+
+font pango:SF Mono:style=Medium 10
+
+# --- [ AUTOSTART ] --- Launch system daemons, applets, compositors, and wall resolution on boot
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id nm-applet
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id greenclip daemon
+exec --no-startup-id dunst
+exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/adrien-olichon-RCAhiGJsUUE-unsplash.png
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf -b
+
+# --- [ WINDOW APPEARANCE ] --- Configure borders, pixel gaps, and mouse focus behavior
+default_border pixel 1
+default_floating_border pixel 1
+hide_edge_borders none
+focus_follows_mouse yes
+mouse_warping none
+floating_modifier $mod
+
+# --- [ GAPS ] --- Configure window spacing and outer padding rules
+gaps inner 10
+gaps outer 5
+smart_gaps off
+
+# --- [ LAUNCHERS & SHORTCUTS ] --- Quick keybindings for primary programs and terminal tools
+bindsym $mod+Return exec --no-startup-id $term
+bindsym $mod+b exec --no-startup-id $browser
+bindsym $mod+Shift+f exec --no-startup-id $term -e ranger
+bindsym $mod+t exec --no-startup-id $term -e tmux
+bindsym $mod+v exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+
+# --- [ SCREENSHOTS ] --- Interactive and full desktop screenshot actions via Flameshot
+bindsym $mod+Home exec --no-startup-id flameshot gui
+bindsym Shift+Print exec --no-startup-id flameshot full -c
+
+# --- [ LOCK SCREEN ] --- Trigger immediate screen locking session
+bindsym $mod+Shift+x exec --no-startup-id i3lock
+
+# --- [ ROFI MENU VARIANTS ] --- Application launcher and command execution runners
+bindsym $mod+d exec --no-startup-id "rofi -show combi -combi-modes drun,run -modes combi -display-combi Apps"
+
+# --- [ HARDWARE KEYS ] --- Audio volume, mic mute, and display brightness hardware controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
+
+# --- [ WINDOW NAVIGATION ] --- Vim-style and Arrow keybindings for shifting focus
+bindsym $mod+Ctrl+h focus left
+bindsym $mod+Ctrl+j focus down
+bindsym $mod+Ctrl+k focus up
+bindsym $mod+Ctrl+l focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# --- [ WINDOW MOVEMENT & SPLITS ] --- Move windows across directions and set directional split orientation
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Splitting
+bindsym $mod+h split h
+bindsym $mod+Shift+v split v
+
+# --- [ LAYOUTS & TILING ] --- Toggle window fullscreen status, floating state, and layout structures
+bindsym $mod+f fullscreen toggle
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+Tab focus mode_toggle
+bindsym $mod+a focus parent
+
+# --- [ WORKSPACES ] --- Define workspace names, quick-switch keys, and target assignments
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 10
+
+# Switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# --- [ SCRATCHPAD ] --- Hide active windows to floating background queue and bring them back
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# --- [ RESIZE MODE ] --- Interactive modal keybindings for adjusting window dimensions
+mode "resize" {
+  bindsym h resize shrink width 2 px or 2 ppt
+    bindsym j resize grow height 2 px or 2 ppt
+    bindsym k resize shrink height 2 px or 2 ppt
+    bindsym l resize grow width 2 px or 2 ppt
+
+    bindsym Left resize shrink width 2 px or 2 ppt
+    bindsym Down resize grow height 2 px or 2 ppt
+    bindsym Up resize shrink height 2 px or 2 ppt
+    bindsym Right resize grow width 2 px or 2 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# --- [ SESSION CONTROL ] --- Kill targeted window, reload config in place, restart i3, or exit session
+bindsym $mod+Shift+q kill
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec i3-nagbar -t warning -m 'Exit i3?' -B 'Yes' 'i3-msg exit'
+
+# --- [ WINDOW COLORS ] ---
+# Syntax: client.<class> <border> <bg> <text> <indicator> <child_border>
+
+# Currently active window (focused)
+client.focused          #ffffff #181818 #ffffff #ffffff   #ffffff
+
+# Unfocused windows
+client.unfocused        #282828 #181818 #828482 #282828   #282828
+
+# Inactive windows (focused on another output/monitor)
+client.focused_inactive #282828 #181818 #828482 #282828   #282828
+
+# Urgent windows (demanding attention)
+client.urgent           #ac4142 #ac4142 #ffffff #ac4142   #ac4142
