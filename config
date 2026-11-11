@@ -7,7 +7,7 @@ set $term alacritty
 set $browser firefox
 set $files ranger
 
-font pango:SF Mono Nerd Font:style=Medium 10
+font pango:SF Mono Nerd Font:style=Medium 10.5
 
 # --- [ AUTOSTART ] --- Launch system daemons, applets, compositors, and wall resolution on boot
 exec --no-startup-id dex --autostart --environment i3
@@ -18,7 +18,7 @@ exec --no-startup-id dunst
 exec --no-startup-id gnome-keyring-daemon --start --components=secrets
 exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.config/i3/lock.sh --nofork
 exec --no-startup-id xset s 600 5
-exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/adrien-olichon-RCAhiGJsUUE-unsplash.png
+exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/pine-watt-2Hzmz15wGik-unsplash.png
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf -b
 
@@ -39,7 +39,6 @@ smart_gaps off
 bindsym $mod+Return exec --no-startup-id $term
 bindsym $mod+b exec --no-startup-id $browser
 bindsym $mod+Shift+f exec --no-startup-id $term -e ranger
-bindsym $mod+t exec --no-startup-id $term -e tmux
 bindsym $mod+v exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # --- [ LOCK SCREEN ] --- Trigger immediate screen locking session
@@ -166,3 +165,4 @@ client.focused_inactive #282828 #181818 #828482 #282828   #282828
 
 # Urgent windows (demanding attention)
 client.urgent           #ac4142 #ac4142 #ffffff #ac4142   #ac4142
+exec_always --no-startup-id xsetroot -cursor_name left_ptr
